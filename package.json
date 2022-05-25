@@ -4,7 +4,7 @@
   "description": "Administration app for Menlah Instititut e.v",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start:dev": "nodemon"
   },
   "repository": {
     "type": "git",
@@ -19,6 +19,7 @@
   "homepage": "https://github.com/dkenmoe/MenlahApp#readme",
   "devDependencies": {
     "@types/node": "^17.0.35",
+    "ts-loader": "^9.3.0",
     "typescript": "^4.6.4"
   }
 }
