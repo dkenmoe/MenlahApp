@@ -9,6 +9,7 @@ import {
     Length,
     IsEmail
 } from "class-validator"
+import _ from "lodash";
 
 @Entity()
 export class User extends BaseEntity {
@@ -50,5 +51,9 @@ export class User extends BaseEntity {
 
     public generateAuthToken():any{
         return jwt.sign({ id: this.id, role: this.role, email: this.email }, config.get("jwtPrivateKey"));
+    }
+
+    public getUserInfos():any{
+        return _.pick(this, ["id", "firstName", "lastName", "email", "role", "createAt", "updateAt", "picture"])
     }
 }
