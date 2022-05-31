@@ -1,3 +1,5 @@
 node_modules
 build
 build/UserManagement
+build/index.js
+build/index.js.map
