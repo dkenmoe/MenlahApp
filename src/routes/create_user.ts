@@ -7,6 +7,7 @@ import passwordComplexity from "joi-password-complexity";
 import { auth } from "../middleware/auth";
 import { Role } from "../entities/userManagement/role";
 import Express from "express";
+import { admin } from "../middleware/admin";
 
 const PERMISSION_DENIED: string = "Permission denied";
 
@@ -126,6 +127,47 @@ router.post("/api/user", auth, async (req, res) => {
     .header("x-auth-token", user.generateAuthToken())
     .status(200)
     .send(user.getUserInfos());
+});
+
+router.put(
+  "/api/user/:id",
+  [auth, admin],
+  async (req: Express.Request, res: Express.Response) => {
+    const userId = req.params.id as any;
+    if (!userId) {
+      const user = await User.findOneBy({
+        id: userId,
+      });
+
+      if (!user && user != null) {
+        const updatedUserInfos = await User.merge(user, req.body);
+        return res
+          .status(200)
+          .send(
+            _.pick(updatedUserInfos,  User.standardFilterArray)
+          );
+      } else {
+        return res.status(400).send("There is no user with given id");
+      }
+    } else {
+      return res.status(400).send("You need to provide user id as parameter");
+    }
+  }
+);
+
+router.put("/api/user/me", auth, async (req, res) => {
+  const user = (req as any).user;
+  const currentUser = await User.findOneBy({
+    id: user.id,
+  });
+
+  if (!currentUser) {
+    return res.status(400).send("There is no user with given id");
+  }
+  const updatedUserInfos = await User.merge(currentUser, req.body);
+  return res.status(200).send(
+    _.pick(updatedUserInfos,  User.standardFilterArray)
+  );
 });
 
 export { router as createUserRoute };

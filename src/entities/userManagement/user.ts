@@ -14,6 +14,8 @@ import _ from "lodash";
 @Entity()
 export class User extends BaseEntity {
 
+    public static standardFilterArray = ["id", "firstName", "lastName", "email", "role", "createAt", "updateAt", "picture"];
+
     @PrimaryGeneratedColumn("uuid")
     id!: number;
 
@@ -54,6 +56,6 @@ export class User extends BaseEntity {
     }
 
     public getUserInfos():any{
-        return _.pick(this, ["id", "firstName", "lastName", "email", "role", "createAt", "updateAt", "picture"])
+        return _.pick(this, User.standardFilterArray)
     }
 }
