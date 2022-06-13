@@ -3,18 +3,19 @@ import jwt from "jsonwebtoken";
 import config from "config";
 import {
     Entity, Column, PrimaryGeneratedColumn, BaseEntity,
-    CreateDateColumn, UpdateDateColumn
+    CreateDateColumn, UpdateDateColumn, OneToMany
 } from "typeorm";
 import {
     Length,
     IsEmail
 } from "class-validator"
 import _ from "lodash";
+import { News } from "./news";
 
 @Entity()
 export class User extends BaseEntity {
 
-    public static standardFilterArray = ["id", "firstName", "lastName", "email", "role", "createAt", "updateAt", "picture"];
+    public static standardFilterArray = ["id", "firstName", "lastName", "email", "role", "createAt", "updateAt", "photos"];
 
     @PrimaryGeneratedColumn("uuid")
     id!: number;
@@ -40,10 +41,13 @@ export class User extends BaseEntity {
     })
     role!: Role;
 
-    @Column({
-        nullable: true
+    @Column("string", {
+        nullable: true, array: true, default:[]
     })
-    picture!: string;
+    photos!: string[];
+
+    @OneToMany(() => News, news => news.author)
+    news!: News[];
 
     @CreateDateColumn()
     createAt!: Date;
@@ -51,11 +55,11 @@ export class User extends BaseEntity {
     @UpdateDateColumn()
     updateAt!: Date;
 
-    public generateAuthToken():any{
+    public generateAuthToken(): any {
         return jwt.sign({ id: this.id, role: this.role, email: this.email }, config.get("jwtPrivateKey"));
     }
 
-    public getUserInfos():any{
-        return _.pick(this, User.standardFilterArray)
+    public getUserInfos(): any {
+        return _.pick(this, User.standardFilterArray);
     }
 }

@@ -1,5 +1,5 @@
 import express from "express";
-import { Role } from "../entities/userManagement/role";
+import { Role } from "../entities/role";
 
 export function admin(req: express.Request, res: express.Response, next: any) {
   const user = (req as any).user;

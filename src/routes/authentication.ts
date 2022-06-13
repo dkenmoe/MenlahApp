@@ -1,5 +1,5 @@
 import express from "express";
-import { User } from "../entities/userManagement/user";
+import { User } from "../entities/user";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import config from "config";

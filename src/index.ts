@@ -21,7 +21,7 @@ AppDataSource.initialize().then(async () => {
   app.use(authenticationRoute);
 
   const server = app.listen(3000, () => {
-    console.log("Server running on port");
+    console.log("Server running on port 3000");
   });
 
   // const user = new User();/**"dieudonné", "kenmoe", "dk@gmail.com" */

@@ -1,11 +1,11 @@
 import express from "express";
-import { User } from "../entities/userManagement/user";
+import { User } from "../entities/user";
 import bcrypt from "bcrypt";
 import _ from "lodash";
 import { validate } from "class-validator";
 import passwordComplexity from "joi-password-complexity";
 import { auth } from "../middleware/auth";
-import { Role } from "../entities/userManagement/role";
+import { Role } from "../entities/role";
 import Express from "express";
 import { admin } from "../middleware/admin";
 
